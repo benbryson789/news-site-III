@@ -1,6 +1,5 @@
-import React, { Component,useEffect } from 'react';
+import React, { Component } from 'react';
 import ArticleList from '../components/ArticleList/ArticleList.js';
-
 import {API_URL} from '../api/api';
 //import News from '../data/news.json';
 import navItems from '../data/navItems.json';
@@ -13,7 +12,6 @@ class HomePage extends Component {
         ///addind data to this variable
         News:[],
         filterKey:'byline',
-        filterValue:''
     }
     //method is binding with class line 8
     //component did mount and is working like useEffect
@@ -47,6 +45,7 @@ fetchArticlesBySection(){
       let data = this.state;
       data.filterKey = e.target.value;
     }
+    //filter articles by title and byline
     fetchArticles(filter){
       let val = filter.target.value;
       if(val === ""){ this.fetchArticlesBySection(); return false;}
