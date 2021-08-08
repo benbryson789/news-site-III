@@ -1,82 +1,63 @@
-import React, { Component } from 'react';
+import React, { useState,useEffect } from 'react';
+import {useHistory} from "react-router-dom";
 import ArticleList from '../components/ArticleList/ArticleList.js';
 import {API_URL} from '../api/api';
-//import News from '../data/news.json';
 import navItems from '../data/navItems.json';
 import AppNav from '../components/AppNav/AppNav.js';
-class HomePage extends Component {
-  constructor(props) {
-    super(props);
-      this.state = {
-        navItems: navItems,
-        ///addind data to this variable
-        News:[],
-        filterKey:'byline',
-    }
-    //method is binding with class line 8
-    //component did mount and is working like useEffect
-    this.fetchArticlesBySection = this.fetchArticlesBySection.bind(this);
-    this.setFilterKey = this.setFilterKey.bind(this);
-    this.fetchArticles = this.fetchArticles.bind(this);
+const  HomePage = () => {
+  //Use webhook use state
+  //creates nav menu
+  //sets nav item line 49
+  const[navItem] = useState(navItems);
+  //sets news article from api
+  //line 67 
+  const[news,setNews] = useState([]);
+  //sets byline title
+  //line 56
+  const[filterKey,setFilterKeys] = useState('');
+  //Onkeyup sets the filter value 
+  const[filterVal,setFilterVal] = useState('');
+  //refers to line 54 pushes url to browser
+  const history = useHistory()
+  useEffect(()=>{
+    //line 23 check the value of the api
+      let url = API_URL+'articles';
+      //if  user will enter blank value in search box then it will call line 16 and if user will enter any text in search box then it will call line 19
+      if(filterVal !== ''){
+        url = API_URL+'articles?filter={"where":{"'+filterKey+'":"'+filterVal+'"}}' ;
+      } 
+      fetch(url) 
+      .then((response) => { 
+          return response.json();
+      })
+      .then((responseData) => {   
+        setNews(responseData);
+      })
+      .catch((error) => {
+        alert("Please check your API");
+      })
+      
+  },[filterVal,filterKey]);
+  //check value by title and byline
+const setFilterKey = (e)=>{
+  //this call line 11
+      setFilterKeys(e.target.value);
   }
-componentDidMount(){
-  this.fetchArticlesBySection();
+  ///setting value for line 23 
+
+const setFilterVals = (e) =>{
+  setFilterVal(e.target.value);
 }
-fetchArticlesBySection(){
-      let data = this.state;
-      fetch(API_URL+'articles') 
-      //checking responee
-      .then((response) => { 
-        //if correct return respone
-        return response.json();
-      })
-      .then((responseData) => { 
-        //gettingr response and setting again in state
-            data.News = responseData;
-            //set state
-            this.setState(data);
-      })
-      .catch((error) => {
-        alert("Please check your API");
-      })
-   
-    }
-    setFilterKey(e){
-      let data = this.state;
-      data.filterKey = e.target.value;
-    }
-    //filter articles by title and byline
-    fetchArticles(filter){
-      let val = filter.target.value;
-      if(val === ""){ this.fetchArticlesBySection(); return false;}
-      let data = this.state;
-      fetch(API_URL+'articles?filter={"where":{"'+data.filterKey+'":"'+val+'"}}' )
-      //checking responee
-      .then((response) => { 
-        //if correct return respone
-        return response.json();
-      })
-      .then((responseData) => { 
-        //gettingr response and setting again in state
-            data.News = responseData;
-            //set state
-            this.setState(data);
-      })
-      .catch((error) => {
-        alert("Please check your API");
-      })
-    }
-  render() {
-    const { navItems } = this.state
     return (
       <div>
           {/*creating a new Nav menu and pushing new url to browser without page reload */}
-        <AppNav navItems={navItems} handleNavClick={(clickedItem) => {this.props.history.push("/"+clickedItem)}} />
-        {/* pushing new url to the browser  without page reload */}
+        <AppNav navItems={navItem} handleNavClick={(clickedItem) => {history.push("/"+clickedItem)}} />
+        {/* creating the byline and the title  */}
         <div class="row">
           <div class="col-md-3">
             <div class="form-group">
-          <select class="form-control" onChange={(e)=>{this.setFilterKey(e)}}>
+              {/* creating the dropdown box  and the options for the byline box*/}
+          <select class="form-control" onChange={(e)=>{setFilterKey(e)}}>
             <option value="byline">By Line</option>
             <option value="title">Title</option>
           </select>
@@ -84,15 +65,14 @@ fetchArticlesBySection(){
           </div>
           <div class="col-md-6">
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Please enter your search key..." onKeyUp={(e)=>{this.fetchArticles(e)}}/>
+            <input type="text" class="form-control" placeholder="Please enter your search key..." onKeyUp={(e)=>{setFilterVals(e)}}/>
             </div>
           </div>
-       
         </div>
-        <ArticleList articles={this.state.News} handleTitleClick={(articleID) =>{this.props.history.push('/articles/'+articleID);} } />
+        {/*  creates news article list*/}
+        <ArticleList articles={news} handleTitleClick={(articleID) =>{history.push('/articles/'+articleID);} } />
       </div>
     );
-  }
 }
 
 export default HomePage;
