@@ -53,19 +53,19 @@ const setFilterVals = (e) =>{
           {/*creating a new Nav menu and pushing new url to browser without page reload */}
         <AppNav navItems={navItem} handleNavClick={(clickedItem) => {history.push("/"+clickedItem)}} />
         {/* creating the byline and the title  */}
-        <div class="row">
-          <div class="col-md-3">
-            <div class="form-group">
+        <div className="row">
+          <div className="col-md-3">
+            <div className="form-group">
               {/* creating the dropdown box  and the options for the byline box*/}
-          <select class="form-control" onChange={(e)=>{setFilterKey(e)}}>
+          <select className="form-control" onChange={(e)=>{setFilterKey(e)}}>
             <option value="byline">By Line</option>
             <option value="title">Title</option>
           </select>
           </div>
           </div>
-          <div class="col-md-6">
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Please enter your search key..." onKeyUp={(e)=>{setFilterVals(e)}}/>
+          <div className="col-md-6">
+          <div className="form-group">
+            <input type="text" className="form-control" placeholder="Please enter your search key..." onKeyUp={(e)=>{setFilterVals(e)}}/>
             </div>
           </div>
         </div>

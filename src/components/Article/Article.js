@@ -1,17 +1,20 @@
-import React, { Component } from 'react';
-
-class Article extends Component {
-  render() {
-    const { title, created_date: createdDate, abstract, byline, image } = this.props;
-    return (
+import React from 'react';
+const Article = ({
+  title, 
+  created_date: createdDate, 
+  abstract, 
+  byline,
+  image
+}) => {
+      return (
       <>
-      <div class="row">
-      <div class="col-md-2">
+      <div className="row">
+      <div className="col-md-2">
         {/* if image is null then image will not render */}
             { image && <img src={ image } alt=""/> }
       </div>
-  		<div class="col-md-10">
-    		<h4 class="media-heading">{title}</h4>
+  		<div className="col-md-10">
+    		<h4 className="media-heading">{title}</h4>
         {/* if byline is null then byline will not render */}
           {byline && <p class="text-right">By {byline}</p> }
           <p>{abstract}</p>
@@ -25,7 +28,6 @@ class Article extends Component {
       
       </>
     )
-  }
 }
 
 export default Article;

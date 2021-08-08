@@ -1,28 +1,14 @@
-import React, { Component } from 'react';
-import navItems from './data/navItems.json';
+import React  from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import ArticlePage from './pages/ArticlePage';
-class App extends Component {
-  constructor(props) {
-    super(props);
-    
-    this.state = {
-      history: this.props.history,
-        navItems: navItems,
-      
-    }
-  }
-
-  render() {
-    
-  
+const  App = () => {
   
     return (
-      <div class="container">
-        <div class="row">
-      <div class="col-md-12">
+      <div className="container">
+        <div className="row">
+      <div className="col-md-12">
         <h1>AppNav Component</h1>
         <hr />
         
@@ -34,9 +20,9 @@ class App extends Component {
         </Router>
       </div>
       </div>
-       </div>
+      </div>
     );
-  }
+
 }
 
 export default App;

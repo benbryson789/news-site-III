@@ -1,26 +1,23 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
-class AppNav extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      collapsed: true,
-      }
-      this.toggleNavbar = this.toggleNavbar.bind(this);  
+const  AppNav = ({
+  //maps thru all nav items by index which are in json file in line 22
+  navItems, 
+  handleNavClick 
+}) => {
+  //open and close nav menu
+  //setCollapsed referred to line 12
+  const[collapsed,setCollapsed] = useState(true);
+  //toggle nav bar
+  const toggleNavbar = () => {
+    setCollapsed(!collapsed);
   }
-  toggleNavbar(){
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
-  }
-  render() {
-    const { navItems, handleNavClick } = this.props;
-      return (
+    return (
       <div>
     <Navbar color="faded" light>
         <NavbarBrand href="/"   className="mr-auto">Menu</NavbarBrand>
-        <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
-        <Collapse isOpen={!this.state.collapsed} navbar>
+        <NavbarToggler onClick={toggleNavbar} className="mr-2" />
+        <Collapse isOpen={!collapsed} navbar>
           <Nav navbar>
           {navItems.map((navItem,index) =>
             <NavItem key={index}>
@@ -32,7 +29,7 @@ class AppNav extends Component {
       </Navbar>
     </div>
     )
-  }
+
 }
 
 export default AppNav;

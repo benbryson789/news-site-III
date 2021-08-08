@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ArticleTeaser from '../ArticleTeaser/ArticleTeaser.js'
-class ArticleList extends Component {
-  render() {
-    const {articles,handleTitleClick} = this.props;
+const ArticleList = ({
+  articles,
+  handleTitleClick
+}) => {
     return (
       <>
             {articles.map((obj,index)=>(
@@ -17,7 +18,7 @@ class ArticleList extends Component {
     
       </>
     );
-  }
+
 }
 
 export default ArticleList;
